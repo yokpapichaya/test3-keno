@@ -19,11 +19,17 @@
                     {% if content.post_type == 'casino_game' %} 
                         <input type="hidden" value="{{ content.ID }},{{ content.casino_prefix }}" class="getlink"/>
                     {% endif %}
+                    {% if content.post_type == 'keno' %} 
+                        <input type="hidden" value="{{ content.ID }},{{ content.keno_prefix }}" class="getlinkkeno"/>
+                    {% endif %}
                     {% if box.h_hot == true %} 
                         {% if content.post_type == 'slot_game' %}
                             <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot.gif');"></div>
                         {% endif %}
                         {% if content.post_type == 'casino_game' %} 
+                            <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot-small.gif');"></div>
+                        {% endif %}
+                        {% if content.post_type == 'keno' %} 
                             <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot-small.gif');"></div>
                         {% endif %}
                     {% endif %}
@@ -91,6 +97,30 @@
                     <div class="box-logo__text">
                         <span>{{ s_box.h_slot_name }}</span>
                         {% if s_box.h_slot_recommend == true %}
+                        <div class="box-recommend">HOT</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if options_h_keno|length >= 1 %}
+        <hr>
+        <div class="service-slot" data-aos="fade-up" data-aos-duration="1000">
+            <h2>บริการคีโนออนไลน์ของ Tokyo7club</h2>
+            <div class="service-container">
+                <div class="wrapper row">
+                {% for s_box in options_h_keno %}
+                <div class="box-logo col-6 col-md-3">
+                    <div class="box-logo__logo">
+                        <img src="{{ TimberImage(s_box.h_keno_logo).src }}" alt="keno">
+                        <div class="box-content__shadow"></div>
+                    </div>
+                    <div class="box-logo__text">
+                        <span>{{ s_box.h_keno_name }}</span>
+                        {% if s_box.h_keno_recommend == true %}
                         <div class="box-recommend">HOT</div>
                         {% endif %}
                     </div>
