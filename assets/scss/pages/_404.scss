@@ -1,0 +1,13 @@
+.page-error {
+    
+    &__body {
+        height: 80vh;
+        @include flex;
+        align-items: center;
+       
+    }
+
+    &__btn {
+        margin-top: 3rem;
+    }
+}

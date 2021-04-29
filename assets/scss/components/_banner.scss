@@ -1,0 +1,22 @@
+.sec-banner{
+    position: relative;
+    width: 100%;
+    .swiper-container{
+        height: 100%;
+        .overlay{
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            position: absolute;
+            left: 0;
+            top: 0;
+            // background-image: $gradient-banner;
+        }
+        .swiper-slide{
+            background-size: 100% auto;
+            background-position: center;
+            background-repeat: no-repeat;
+
+        }
+    }
+}

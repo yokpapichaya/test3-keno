@@ -1,0 +1,58 @@
+.home{
+    .sec-service{
+        h2{
+            color: $theme-color;
+            font-family: $font-family-base;
+            text-align: center;
+        }
+        .service-casino,
+        .service-slot{
+            margin: 6rem 0;
+        }
+        .wrapper{
+            @include flexcenter();
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+    }
+    .sec-allgame{
+        margin-top: 2rem;
+    }
+    .sec-whyus{
+        background-color: #151414d4;
+        padding: 4rem 0;
+        margin-top: 7rem;
+        @media screen and (max-width: 1200px) {
+            margin-top: 0rem;
+         }
+        .box-whyus{
+            @include flex();
+            @media screen and (max-width: 767px) {
+               display: inherit;
+            }
+            &__image{
+                width: 50%;
+                position: relative;
+                @media screen and (max-width: 1200px) {
+                    width: 100%;
+                 }
+                .m_image{
+                    position: absolute;
+                    bottom: 0;
+                    width: 40%;
+                    right: 4rem;
+                }
+            }
+            &__content{
+                width: 50%;
+                margin-left: 2rem;
+                color: $white;
+                font-family: $font-family-base;
+                @media screen and (max-width: 1200px) {
+                    width: 100%;
+                    margin-left: 0;
+                 }
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+.page-template-page-casino{
+    .sec-blockcasino{
+        padding: 4rem 0;
+        @media screen and (max-width: 1200px) {
+            padding: 0;
+        }
+        .box-allgame{
+            &__logo{
+                top: 50%;
+            }
+            &:hover{
+                -webkit-box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+                -moz-box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+                .box-allgame__logo{
+                    img{
+                        transition: $gobal-transition;
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+    }
+}

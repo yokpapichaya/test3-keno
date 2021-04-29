@@ -1,0 +1,118 @@
+{% extends 'base.twig' %}
+{% block content %}
+
+<section class="sec-announcement">
+    <div class="box-announcement">
+        <div class="container">
+            <div class="box-announcement_text"><marquee>{{ options_h_announcement }}</marquee></div>
+        </div>
+    </div>
+</section>
+{% include 'templates/partial/banner.twig' %}
+<section class="sec-allgame">
+    <div class="container">
+        <div class="row">
+            {% for box in options_h_blockgame %}
+                {% set content = TimberPost(box.h_link) %}
+                <div class="col-6 col-md-3">
+                    <a {% if content.post_type == 'slot_game' %} href="{{ content.guid }}" {% endif %} class="box-allgame {{content.post_type}}" id="{{ content.ID }}" data-aos="fade-up" data-aos-duration="1000">
+                    {% if content.post_type == 'casino_game' %} 
+                        <input type="hidden" value="{{ content.ID }},{{ content.casino_prefix }}" class="getlink"/>
+                    {% endif %}
+                    {% if box.h_hot == true %} 
+                        {% if content.post_type == 'slot_game' %}
+                            <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot.gif');"></div>
+                        {% endif %}
+                        {% if content.post_type == 'casino_game' %} 
+                            <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot-small.gif');"></div>
+                        {% endif %}
+                    {% endif %}
+                    <div class="box-allgame__logo"><img src="{{ TimberImage(box.h_blockgame_logo).src }}" alt="h_box-logo{{loop.index}}"></div>
+                    <div class="box-allgame__bg"><img src="{{ TimberImage(box.h_blockgame_image).src }}" alt="h_box-image{{loop.index}}"></div>
+                    <div class="btn btn-game">เข้าเล่น</div>
+                </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="sec-content">
+    <div class="container">
+    {% set content = options_h_about %}
+        <div class="box-content row" data-aos="fade-up" data-aos-duration="1000">
+            <div class="box-content__image col-12 col-sm-4 col-md-12 col-lg-5">
+                <img src="{{ TimberImage(content.h_about_image).src }}" alt="h_aboutimage" class="x-float-animate">
+                <div class="box-content__shadow"></div>
+            </div>
+            <div class="box-content__content col-12 col-sm-8 col-md-12 col-lg-7">{{ content.h_about_content|wpautop }}</div>
+        </div>
+    </div>
+</section>
+
+
+<section class="sec-service">
+    <div class="container">
+    {% if options_h_casino|length >= 1 %}
+        <div class="service-casino" data-aos="fade-up" data-aos-duration="1000">
+            <h2>บริการคาสิโนออนไลน์ของ Tokyo7club</h2>
+            <div class="service-container">
+                <div class="wrapper row">
+                {% for box in options_h_casino %}
+                    <div class="box-logo col-6 col-md-3">
+                        <div class="box-logo__logo">
+                            <img src="{{ TimberImage(box.h_casino_logo).src }}" alt="h_servicelogo{{loop.index}}">
+                            <div class="box-content__shadow"></div>
+                        </div>
+                        <div class="box-logo__text">
+                            <span>{{ box.h_casino_name }}</span>
+                            {% if box.h_casino_recommend == true %}
+                            <div class="box-recommend">HOT</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if options_h_slot|length >= 1 %}
+        <hr>
+        <div class="service-slot" data-aos="fade-up" data-aos-duration="1000">
+            <h2>บริการสล็อตออนไลน์ของ Tokyo7club</h2>
+            <div class="service-container">
+                <div class="wrapper row">
+                {% for s_box in options_h_slot %}
+                <div class="box-logo col-6 col-md-3">
+                    <div class="box-logo__logo">
+                        <img src="{{ TimberImage(s_box.h_slot_logo).src }}" alt="h_slotimage{{loop.index}}">
+                        <div class="box-content__shadow"></div>
+                    </div>
+                    <div class="box-logo__text">
+                        <span>{{ s_box.h_slot_name }}</span>
+                        {% if s_box.h_slot_recommend == true %}
+                        <div class="box-recommend">HOT</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+</section>
+
+<section class="sec-whyus">
+    <div class="container">
+    {% set why = options_h_whyus %}
+        <div class="box-whyus" data-aos="fade-up" data-aos-duration="1000">
+            <div class="box-whyus__image">
+                <div class="d_image x-float-animate"><img src="{{ TimberImage(why.h_whyus_imgdesktop).src }}" alt="h_whydesktop"></div>
+                <div class="m_image y-float-animate"><img src="{{ TimberImage(why.h_whyus_imgmobile).src }}" alt="h_whymobile"></div>
+            </div>
+            <div class="box-whyus__content">{{ why.h_whyus_content }}</div>
+        </div>
+    </div>
+</section>
+{% endblock %}

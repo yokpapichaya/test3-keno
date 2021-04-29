@@ -1,0 +1,27 @@
+{% extends 'base.twig' %}
+{% block content %}
+<section class="sec-page-content" data-aos="fade-up" data-aos-duration="1000">
+    <div class="container">
+        {{ options_slot_content }}
+    </div>
+</section>
+
+<section class="sec-blockslot">
+    <div class="container">
+        <div class="row">
+        {% for box in options_slot_block %}
+        {% set content = TimberPost(box.slot_block_link) %}
+         <div class="col-6 col-md-3">
+            <a href="{{ content.link }}" class="box-allgame" data-aos="fade-up" data-aos-duration="1000">
+                {% if box.slot_block_hot == true %} 
+                    <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot.gif');"></div>
+                {% endif %}
+                <div class="box-allgame__logo"><img src="{{ TimberImage(box.slot_block_logo).src }}" alt="s_simage{{loop.index}}"></div>
+            </a>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
