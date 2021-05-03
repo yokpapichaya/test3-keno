@@ -10,7 +10,7 @@
                         <ul class="menu-list">
                         {% for item in options_menu_group %}
                             <li class="menu-list__item">
-                                <a href="{% if item.menu_link == 'out' %}{{ item.link_external }}{% elseif item.menu_link == 'in' %}{{ TimberPost(item.menu_page).link }}{% else %}ambbet.com{% endif %}" {% if item.menu_link != 'in' %}target="_blank"{% endif %} class="menu_check {% if item.menu_link == 'sport' %}sport-item{% endif %}">
+                                <a href="{% if item.menu_link == 'out' %}{{ item.link_external }}{% elseif item.menu_link == 'in' %}{{ TimberPost(item.menu_page).link }}{% else %}ambbet.com{% endif %}" {% if item.menu_link != 'in' %}target="_blank"{% endif %} class="menu_check {% if item.menu_link == 'sport' %}sport-item{% endif %}{% if item.sub_menu == true %}lock{% endif %}">
                                     <div class="menu__icon"><img src="{{ TimberImage(item.menu_icon).src }}"></div>
                                     {{ item.menu_text }}
                                     {% if item.sub_menu == true %}
