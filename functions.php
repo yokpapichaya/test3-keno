@@ -194,9 +194,16 @@ class StarterSite extends Timber\Site {
 				'menu_slug' 	=> 'p_casino',
 				'icon_url' => 'dashicons-tickets',
 			));
+
 			acf_add_options_page(array(
 				'page_title' 	=> 'สล็อต',
 				'menu_slug' 	=> 'p_slot',
+				'icon_url' => 'dashicons-image-filter',
+			));
+
+			acf_add_options_page(array(
+				'page_title' 	=> 'คีโน',
+				'menu_slug' 	=> 'keno',
 				'icon_url' => 'dashicons-image-filter',
 			));
 
@@ -311,6 +318,7 @@ if ( get_current_user_id() != 1 ) {
 	  remove_menu_page('cptui_main_menu');				//cpui plugin
 	  remove_menu_page('edit.php?post_type=casino_game');  // casino post type
 	  remove_menu_page('edit.php?post_type=slot_game');    // slot post type
+	  remove_menu_page('edit.php?post_type=keno');    // keno post type
 	  remove_menu_page( 'edit.php?post_type=acf-field-group' ); //acf plugin
 	  remove_menu_page( 'index.php' ); 	
 	  remove_menu_page( 'itsec');	
