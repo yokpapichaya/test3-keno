@@ -578,6 +578,8 @@ if (sessionStorage.getItem("token")) {
                                                 $('.game-list').append(`<h3>เกมปิดปรับปรุงชั่วคราว ขออภัยในความไม่สะดวก</h3>`);
                                             }
                                         }
+                                    }else {
+                                        $('.game-list').append(`<h3>เกมปิดปรับปรุงชั่วคราว ขออภัยในความไม่สะดวก</h3>`);
                                     }
                                     $('.box-card-promotion').on('click', function (e) {
                                         if (!sessionStorage.getItem('token')) {
