@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $, { data } from 'jquery';
 import Swiper from 'swiper/js/swiper';
 import swal from 'sweetalert';
 import axios from 'axios';
@@ -50,9 +50,8 @@ if (sessionStorage.getItem("token")) {
             init: function () {
 
             },
-            finalize: function () {
+            finalize: async function () {
                 AOS.init();
-
                 // sticky menu
                 window.onscroll = function () {
                     myFunction()
@@ -138,7 +137,9 @@ if (sessionStorage.getItem("token")) {
                         } else {
                             window.location.href = 'https://' + domain + '/#!/redirect?username=' + sessionStorage.getItem('user') + '&password=' + atob(sessionStorage.getItem('redirect')) + '&hash=5f72244f8b08c13bf4ac8f24&url=' + window.location.origin;
                         }
-                        sessionStorage.clear();
+                        sessionStorage.removeItem('token');
+                        sessionStorage.removeItem('user');
+                        sessionStorage.removeItem('redirect');
                     }
                 });
             }
@@ -147,7 +148,7 @@ if (sessionStorage.getItem("token")) {
             init: function () {
 
             },
-            finalize: function () {
+            finalize:async function () {
 
                 //box all game casino
                 var linkURL = [];
@@ -191,7 +192,9 @@ if (sessionStorage.getItem("token")) {
                                     } else {
                                         if (resp.data.code == 1005) {
                                             alert(resp.data.message)
-                                            sessionStorage.clear();
+                                            sessionStorage.removeItem('token');
+                                            sessionStorage.removeItem('user');
+                                            sessionStorage.removeItem('redirect');
                                             window.location.href = location.hostname + '/login'
                                         } else {
                                             alert(resp.data.message)
@@ -207,7 +210,9 @@ if (sessionStorage.getItem("token")) {
                                     } else {
                                         if (resp.data.code == 1005) {
                                             alert(resp.data.message)
-                                            sessionStorage.clear();
+                                            sessionStorage.removeItem('token');
+                                            sessionStorage.removeItem('user');
+                                            sessionStorage.removeItem('redirect');
                                             window.location.href = location.hostname + '/login'
                                         } else {
                                             alert(resp.data.message)
@@ -224,7 +229,9 @@ if (sessionStorage.getItem("token")) {
                                     } else {
                                         if (resp.data.code == 1005) {
                                             alert(resp.data.message)
-                                            sessionStorage.clear();
+                                            sessionStorage.removeItem('token');
+                                            sessionStorage.removeItem('user');
+                                            sessionStorage.removeItem('redirect');
                                             window.location.href = location.hostname + '/login'
                                         } else {
                                             alert(resp.data.message)
@@ -239,7 +246,9 @@ if (sessionStorage.getItem("token")) {
                                     } else {
                                         if (resp.data.code == 1005) {
                                             alert(resp.data.message)
-                                            sessionStorage.clear();
+                                            sessionStorage.removeItem('token');
+                                            sessionStorage.removeItem('user');
+                                            sessionStorage.removeItem('redirect');
                                             window.location.href = location.hostname + '/login'
                                         } else {
                                             alert(resp.data.message)
@@ -289,7 +298,9 @@ if (sessionStorage.getItem("token")) {
                                 } else {
                                     if (resp.data.code == 1005) {
                                         alert(resp.data.message)
-                                        sessionStorage.clear();
+                                        sessionStorage.removeItem('token');
+                                        sessionStorage.removeItem('user');
+                                        sessionStorage.removeItem('redirect');
                                         window.location.href = location.hostname + '/login';
                                     } else {
                                         alert(resp.data.message)
@@ -303,7 +314,9 @@ if (sessionStorage.getItem("token")) {
                                 } else {
                                     if (resp.data.code == 1005) {
                                         alert(resp.data.message)
-                                        sessionStorage.clear();
+                                        sessionStorage.removeItem('token');
+                                        sessionStorage.removeItem('user');
+                                        sessionStorage.removeItem('redirect');
                                         window.location.href = location.hostname + '/login';
                                     } else {
                                         alert(resp.data.message)
@@ -314,13 +327,55 @@ if (sessionStorage.getItem("token")) {
                         }
                     }
                 });
+
+                var listData;
+                const getJson = async function () {
+                    var data = await axios.get(`https://cdn.ambbet.com/gamelist-ambbet.json`);
+                    return data;
+                }
+
+                
+                if (sessionStorage.getItem('data_slug')) {
+                    listData = JSON.parse(sessionStorage.getItem('data_slug'));
+                } else {
+                    var jsonData = await getJson();
+                    var gameItem = jsonData.data;
+                    listData = gameItem;
+                    sessionStorage.setItem('data_slug', JSON.stringify(gameItem));
+                }
+
+                setTimeout(() => {
+                    var dataCasino = listData.lists.filter(item => item.type == 'casino');
+                    $.each(dataCasino, function(index,value) {
+                        if(!value.active) {
+                            $(`.casino_game[data-slug=${value.productCode}]`).addClass('disabled');
+                            $(`.casino_game[data-slug=${value.productCode}]`).append('<div class="noti">ปิดปรับปรุง</div>');
+                        }
+                    });
+                    
+                    var dataKeno = listData.lists.filter(item => item.type == 'keno');
+                    $.each(dataKeno, function(index,value) {
+                        if(!value.active) {
+                            $(`.keno[data-slug=${value.productCode}]`).addClass('disabled');
+                            $(`.keno[data-slug=${value.productCode}]`).append('<div class="noti">ปิดปรับปรุง</div>');
+                        }
+                    });
+
+                    var dataSlot = listData.lists.filter(item => item.type == 'slot');
+                    $.each(dataSlot, function(index,value) {
+                        if(!value.active) {
+                            $(`.slot_game[data-slug=${value.productCode}]`).addClass('disabled');
+                            $(`.slot_game[data-slug=${value.productCode}]`).append('<div class="noti">ปิดปรับปรุง</div>');
+                        }
+                    });
+                }, 500);
             }
         },
         'page_template_page_casino': {
             init: function () {
 
             },
-            finalize: function () {
+            finalize: async function () {
                 var linkURL = [];
 
                 $('.getlink').each(function (index) {
@@ -362,7 +417,9 @@ if (sessionStorage.getItem("token")) {
                                     } else {
                                         if (resp.data.code == 1005) {
                                             alert(resp.data.message)
-                                            sessionStorage.clear();
+                                            sessionStorage.removeItem('token');
+                                            sessionStorage.removeItem('user');
+                                            sessionStorage.removeItem('redirect');
                                             window.location.href = location.hostname + '/login'
                                         } else {
                                             alert(resp.data.message)
@@ -378,7 +435,9 @@ if (sessionStorage.getItem("token")) {
                                     } else {
                                         if (resp.data.code == 1005) {
                                             alert(resp.data.message)
-                                            sessionStorage.clear();
+                                            sessionStorage.removeItem('token');
+                                            sessionStorage.removeItem('user');
+                                            sessionStorage.removeItem('redirect');
                                             window.location.href = location.hostname + '/login'
                                         } else {
                                             alert(resp.data.message)
@@ -395,7 +454,9 @@ if (sessionStorage.getItem("token")) {
                                     } else {
                                         if (resp.data.code == 1005) {
                                             alert(resp.data.message)
-                                            sessionStorage.clear();
+                                            sessionStorage.removeItem('token');
+                                            sessionStorage.removeItem('user');
+                                            sessionStorage.removeItem('redirect');
                                             window.location.href = location.hostname + '/login'
                                         } else {
                                             alert(resp.data.message)
@@ -410,7 +471,9 @@ if (sessionStorage.getItem("token")) {
                                     } else {
                                         if (resp.data.code == 1005) {
                                             alert(resp.data.message)
-                                            sessionStorage.clear();
+                                            sessionStorage.removeItem('token');
+                                            sessionStorage.removeItem('user');
+                                            sessionStorage.removeItem('redirect');
                                             window.location.href = location.hostname + '/login'
                                         } else {
                                             alert(resp.data.message)
@@ -422,88 +485,57 @@ if (sessionStorage.getItem("token")) {
                         }
                     }
                 });
-            }
-        },
-        'page_template_page_keno': {
-            init: function () {
 
-            },
-            finalize: function () {
-                var linkURLkeno = [];
+                var listData;
+                const getJson = async function () {
+                    var data = await axios.get(`https://cdn.ambbet.com/gamelist-ambbet.json`);
+                    return data;
+                }
+                if (sessionStorage.getItem('data_slug')) {
+                    listData = JSON.parse(sessionStorage.getItem('data_slug'));
+                } else {
+                    var jsonData = await getJson();
+                    var gameItem = jsonData.data;
+                    listData = gameItem;
+                    sessionStorage.setItem('data_slug', JSON.stringify(gameItem));
+                }
 
-                $('.getlinkkeno').each(function (index) {
-                    let _this = $(this).val();
-                    let arrayThis = _this.split(',');
-                    linkURLkeno.push(arrayThis);
-                    if ($('.getlinkkeno').length == index + 1) {
-                        $('.getlinkkeno').remove();
-                    }
-                })
-
-                $('.keno').on('click', function () {
-                    var id = $(this).attr("id");
-                    var gameURL;
-
-                    $.each(linkURLkeno, function (index, value) {
-                        if (value[0] == id) {
-                            gameURL = value[1];
+                setTimeout(() => {
+                    var dataCasino = listData.lists.filter(item => item.type == 'casino');
+                    $.each(dataCasino, function(index,value) {
+                        if(!value.active) {
+                            $(`.box-allgame[data-slug=${value.productCode}]`).addClass('disabled');
+                            $(`.box-allgame[data-slug=${value.productCode}]`).append('<div class="noti">ปิดปรับปรุง</div>');
                         }
                     });
-                    checkkeno();
-                    async function checkkeno() {
-                        let chkstatus = await checkLogin();
-                        if (chkstatus == true) {
-                            let uri = gameURL;
-                            if (isMobile()) {
-                                uri = uri + 'MB'
-                            } else {
-                                uri = uri + 'PC'
-                            }
-                            if (isLine()) {
-                                let resp = await axios.get(uri)
-                                if (resp.data.code == 0) {
-                                    location.href = resp.data.url
-                                } else {
-                                    if (resp.data.code == 1005) {
-                                        alert(resp.data.message)
-                                        sessionStorage.clear();
-                                        window.location.href = location.hostname + '/login';
-                                    } else {
-                                        alert(resp.data.message)
-                                    }
-                                }
-                            } else {
-                                let resp = await axios.get(uri);
-                                checkWindow();
-                                if (resp.data.code == 0) {
-                                    gameWindow.location.href = resp.data.url
-                                } else {
-                                    if (resp.data.code == 1005) {
-                                        alert(resp.data.message)
-                                        sessionStorage.clear();
-                                        window.location.href = location.hostname + '/login';
-                                    } else {
-                                        alert(resp.data.message)
-                                        gameWindow.close();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
+                }, 500);
             }
         },
         'single_slot_game': {
             init: function () {
 
             },
-            finalize: function () {
+            finalize: async function () {
+                var listData;
+                const getJson = async function () {
+                    var data = await axios.get(`https://cdn.ambbet.com/gamelist-ambbet.json`);
+                    return data;
+                }
+                if (sessionStorage.getItem('data_slug')) {
+                    listData = JSON.parse(sessionStorage.getItem('data_slug'));
+                } else {
+                    var jsonData = await getJson();
+                    var gameItem = jsonData.data;
+                    listData = gameItem;
+                    sessionStorage.setItem('data_slug', JSON.stringify(gameItem));
+                }
+
                 var id = $('.game-list').attr("id");
                 var url;
                 if (!url) url = window.location.href;
                 var text = url.split('/');
                 var type = text[text.length - 2];
-
+                
                 var img =
                     $.ajax({
                         type: "post",
@@ -519,13 +551,12 @@ if (sessionStorage.getItem("token")) {
                             axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('token');
                             let listGame;
                             var type = response.slugpost;
-                           
+                            
                             if (type == 'ambpoker') {
                                 getGamelistamb();
                                 async function getGamelistamb() {
                                     let uri = url_listgame;
                                     let resp = await axios.get(uri)
-                                    
                                     if (resp.data.code == 0) {
                                         listGame = resp.data.data;
                                         listGame.forEach(data => {
@@ -538,6 +569,12 @@ if (sessionStorage.getItem("token")) {
                                       </div>
                                   </div>`)
                                         })
+                                    }else {
+                                        if(resp.data.message) {
+                                            $('.game-list').append(`<h3>${resp.data.message}</h3>`);
+                                        }else {
+                                            $('.game-list').append(`<h3>เกมปิดปรับปรุงชั่วคราว ขออภัยในความไม่สะดวก</h3>`);
+                                        }
                                     }
                                     $('.box-card-promotion').on('click', function (e) {
                                         if (!sessionStorage.getItem('token')) {
@@ -559,6 +596,7 @@ if (sessionStorage.getItem("token")) {
                                     let listgame;
                                     
                                     $.each(resp.data.data, (index, data) => {
+
                                         if (data.productCode == type) {
                                             listgame = data.lists;
                                         }
@@ -566,29 +604,43 @@ if (sessionStorage.getItem("token")) {
 
                                     if (resp.data.status == 0) {
                                         if(type == 'pg_slot'){
-                                            listgame.forEach(data => {
-                                                $('.game-list').append(`
-                                            <div id="each-list" class="col-lg-2 col-md-3 col-6">
-                                            <div class="box-card-promotion" data-game="${data.gameCode}">
-                                                <div class="box-card-promotion__img"><img class="list-image" src="https://cdn.askmebet.cloud//img/${data.imgUrl}" onerror="this.onerror=null;this.src='https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';"></div>
-                                                <div class="box-card-promotion__caption">
-                                                    ${data.gameName}
-                                                </div>
-                                            </div>
-                                        </div>`)
-                                            })
+                                            var status = listData.lists.filter(item => item.productCode == $('.game-list').data('slug'))[0];
+                                                if(status.active) {
+                                                listgame.forEach(data => {
+                                                    $('.game-list').append(`
+                                                        <div id="each-list" class="col-lg-2 col-md-3 col-6">
+                                                        <div class="box-card-promotion" data-game="${data.gameCode}">
+                                                            <div class="box-card-promotion__img"><img class="list-image" src="https://cdn.askmebet.cloud//img/${data.imgUrl}" onerror="this.onerror=null;this.src='https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';"></div>
+                                                            <div class="box-card-promotion__caption">
+                                                                ${data.gameName}
+                                                            </div>
+                                                        </div>
+                                                    </div>`)
+                                                })
+                                            }
                                         } else {
-                                            listgame.forEach(data => {
-                                                $('.game-list').append(`
-                                            <div id="each-list" class="col-lg-2 col-md-3 col-6">
-                                            <div class="box-card-promotion" data-game="${data.gameId}">
-                                                <div class="box-card-promotion__img"><img class="list-image" src="https://cdn.askmebet.cloud//img/${data.imgUrl}" onerror="this.onerror=null;this.src='https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';"></div>
-                                                <div class="box-card-promotion__caption">
-                                                    ${data.gameName}
-                                                </div>
-                                            </div>
-                                        </div>`)
-                                            })
+                                            var status = listData.lists.filter(item => item.productCode == $('.game-list').data('slug'))[0];
+                                            if(status.active) {
+                                                listgame.forEach(data => {
+                                                    $('.game-list').append(`
+                                                    <div id="each-list" class="col-lg-2 col-md-3 col-6">
+                                                    <div class="box-card-promotion" data-game="${data.gameId}">
+                                                        <div class="box-card-promotion__img"><img class="list-image" src="https://cdn.askmebet.cloud//img/${data.imgUrl}" onerror="this.onerror=null;this.src='https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';"></div>
+                                                        <div class="box-card-promotion__caption">
+                                                            ${data.gameName}
+                                                        </div>
+                                                    </div>
+                                                </div>`)
+                                                })
+                                            }else {
+                                                $('.game-list').append(`<h3>เกมปิดปรับปรุงชั่วคราว ขออภัยในความไม่สะดวก</h3>`);
+                                            }
+                                        }
+                                    }else {
+                                        if(resp.data.message) {
+                                            $('.game-list').append(`<h3>${resp.data.message}</h3>`);
+                                        }else {
+                                            $('.game-list').append(`<h3>เกมปิดปรับปรุงชั่วคราว ขออภัยในความไม่สะดวก</h3>`);
                                         }
                                     }
                                     if (type == 'pg_slot' || type == 'gamatron') {
@@ -782,7 +834,9 @@ if (sessionStorage.getItem("token")) {
                                 focusConfirm: false,
                                 focusCancel: false
                             }).then(function () {
-                                sessionStorage.clear();
+                                sessionStorage.removeItem('token');
+                                sessionStorage.removeItem('user');
+                                sessionStorage.removeItem('redirect');
                                 location.href = window.location.origin + '/login';
                             });
                             return;

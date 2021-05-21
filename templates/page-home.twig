@@ -15,11 +15,13 @@
             {% for box in options_h_blockgame %}
                 {% set content = TimberPost(box.h_link) %}
                 <div class="col-6 col-md-3">
-                    <a {% if content.post_type == 'slot_game' %} href="{{ content.guid }}" {% endif %} class="box-allgame {{content.post_type}}" id="{{ content.ID }}" data-aos="fade-up" data-aos-duration="1000">
-                    {% if content.post_type == 'casino_game' %} 
+                    {% if content.post_type == 'slot_game' %}
+                    <a href="{{ content.guid }}" class="box-allgame {{content.post_type}}" id="{{ content.ID }}" data-slug="{{ content.postslug }}" data-aos="fade-up" data-aos-duration="1000">
+                    {% elseif content.post_type == 'casino_game' %}
+                    <div class="box-allgame {{content.post_type}}" id="{{ content.ID }}" data-slug="{{ content.casino_parameter }}" data-aos="fade-up" data-aos-duration="1000">
                         <input type="hidden" value="{{ content.ID }},{{ content.casino_prefix }}" class="getlink"/>
-                    {% endif %}
-                    {% if content.post_type == 'keno' %} 
+                    {% elseif content.post_type == 'keno' %}
+                    <div class="box-allgame {{content.post_type}}" id="{{ content.ID }}" data-slug="{{ content.keno_parameter }}" data-aos="fade-up" data-aos-duration="1000">
                         <input type="hidden" value="{{ content.ID }},{{ content.keno_prefix }}" class="getlinkkeno"/>
                     {% endif %}
                     {% if box.h_hot == true %} 
@@ -36,7 +38,11 @@
                     <div class="box-allgame__logo"><img src="{{ TimberImage(box.h_blockgame_logo).src }}" alt="h_box-logo{{loop.index}}"></div>
                     <div class="box-allgame__bg"><img src="{{ TimberImage(box.h_blockgame_image).src }}" alt="h_box-image{{loop.index}}"></div>
                     <div class="btn btn-game">เข้าเล่น</div>
+               {% if content.post_type == 'slot_game' %}
                 </a>
+                {% else %}
+                 </div>
+                {% endif %}
                 </div>
             {% endfor %}
         </div>

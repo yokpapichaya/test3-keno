@@ -11773,6 +11773,22 @@ i {
     content: "";
     padding-top: 100%;
     display: block; }
+  .box-allgame.disabled {
+    pointer-events: none !important;
+    filter: grayscale(100); }
+    .box-allgame.disabled .noti {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      text-align: center;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      color: #fff;
+      background-color: red;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+      z-index: 1;
+      font-family: "Kanit", sans-serif; }
   .box-allgame__hot {
     position: absolute;
     top: -2rem;
@@ -12008,6 +12024,10 @@ i {
 
 .box-list-game {
   margin-bottom: 2rem; }
+  .box-list-game h3 {
+    margin: 4rem;
+    text-align: center;
+    min-height: 80vh; }
   .box-list-game .box-card-promotion {
     border-radius: 0.5rem;
     border: 0.1rem solid #e6be62;

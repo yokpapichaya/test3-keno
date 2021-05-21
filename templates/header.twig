@@ -43,7 +43,7 @@
                             <i class="i-user"></i>
                             <span>{{ __('สมัครสมาชิก', 'template')  }}</span>
                             </a>
-                        <div class="btn logout" onclick="window.location.href='';sessionStorage.clear();">
+                        <div class="btn logout" onclick="window.location.href=''; sessionStorage.removeItem('token'); sessionStorage.removeItem('user'); sessionStorage.removeItem('redirect');">
                             <i class="i-login"></i>
                             <span>{{ __('ออกจากระบบ', 'template')  }}</span>
                         </div>
@@ -87,7 +87,7 @@
                         <i class="i-user"></i>
                         <span>{{ __('สมัครสมาชิก', 'template')  }}</span>
                         </a>
-                    <div class="btn logout" onclick="window.location.href='';sessionStorage.clear();">
+                    <div class="btn logout" onclick="window.location.href='';sessionStorage.removeItem('token'); sessionStorage.removeItem('user'); sessionStorage.removeItem('redirect');">
                         <i class="i-login"></i>
                         <span>{{ __('ออกจากระบบ', 'template')  }}</span>
                     </div>
