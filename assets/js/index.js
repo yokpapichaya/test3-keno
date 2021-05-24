@@ -361,7 +361,7 @@ if (sessionStorage.getItem("token")) {
                         }
                     });
 
-                    var dataSlot = listData.lists.filter(item => item.type == 'slot');
+                    var dataSlot = listData.lists.filter(item => item.type == 'slot' ||  item.type == 'poker');
                     $.each(dataSlot, function(index,value) {
                         if(!value.active) {
                             $(`.slot_game[data-slug=${value.productCode}]`).addClass('disabled');
@@ -552,7 +552,7 @@ if (sessionStorage.getItem("token")) {
                             let listGame;
                             var type = response.slugpost;
                             
-                            if (type == 'ambpoker') {
+                            if (type == 'amb-poker') {
                                 getGamelistamb();
                                 async function getGamelistamb() {
                                     let uri = url_listgame;
