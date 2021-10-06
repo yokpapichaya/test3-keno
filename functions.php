@@ -202,12 +202,6 @@ class StarterSite extends Timber\Site {
 			));
 
 			acf_add_options_page(array(
-				'page_title' 	=> 'คีโน',
-				'menu_slug' 	=> 'keno',
-				'icon_url' => 'dashicons-image-filter',
-			));
-
-			acf_add_options_page(array(
 				'page_title' 	=> 'ฟุตเตอร์',
 				'menu_slug' 	=> 'fotter',
 				'icon_url' => 'dashicons-admin-tools',
@@ -433,27 +427,9 @@ function my_login_logo_one() {
 	 ';
 } add_action( 'login_enqueue_scripts', 'my_login_logo_one' );
 
-function autologin() {
-	// PARAMETER TO CHECK FOR
-	if(isset($_GET['autologin'])) {
-		if ($_GET['autologin'] == 'demo') {
-		
-			// ACCOUNT USERNAME TO LOGIN TO
-			$creds['user_login'] = 'ambdemo';
-			
-			// ACCOUNT PASSWORD TO USE
-			$creds['user_password'] = '@e^D1WZrAtYys$RfSaN)Kukq';
-			
-			$creds['remember'] = true;
-			$autologin_user = wp_signon( $creds, true );
-			
-			if ( !is_wp_error($autologin_user) ) 
-				header('Location: wp-admin'); // LOCATION TO REDIRECT TO
-		}
-	}
-	
-}
-// ADD CODE JUST BEFORE HEADERS AND COOKIES ARE SENT
-add_action( 'after_setup_theme', 'autologin' );
+// add_action( 'updated_option', 'function_purge_cache');
 
+// function function_purge_cache() {
+//     WP_Optimize()->get_page_cache()->purge();
+// }
 new StarterSite();
