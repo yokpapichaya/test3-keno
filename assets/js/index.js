@@ -614,8 +614,8 @@ if (sessionStorage.getItem("token")) {
                                                 listgame.forEach(data => {
                                                     $('.game-list').append(`
                                                         <div id="each-list" class="col-lg-2 col-md-3 col-6">
-                                                        <div class="box-card-promotion" data-game="${data.gameCode}">
-                                                            <div class="box-card-promotion__img"><img class="list-image" src="https://cdn.askmebet.cloud//img/${data.imgUrl}" onerror="this.onerror=null;this.src='https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';"></div>
+                                                        <div class="box-card-promotion" data-code="${data.gameCode}">
+                                                            <div class="box-card-promotion__img"><img class="list-image" src="https://cdn.ambbet.com/${data.imgUrl}" onerror="this.onerror=null;this.src='https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';"></div>
                                                             <div class="box-card-promotion__caption">
                                                                 ${data.gameName}
                                                             </div>
@@ -629,8 +629,8 @@ if (sessionStorage.getItem("token")) {
                                                 listgame.forEach(data => {
                                                     $('.game-list').append(`
                                                     <div id="each-list" class="col-lg-2 col-md-3 col-6">
-                                                    <div class="box-card-promotion" data-game="${data.gameId}">
-                                                        <div class="box-card-promotion__img"><img class="list-image" src="https://cdn.askmebet.cloud//img/${data.imgUrl}" onerror="this.onerror=null;this.src='https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';"></div>
+                                                    <div class="box-card-promotion" data-id="${data.gameId}" data-code="${data.gameCode}" data-vender="${data.productCode}">
+                                                        <div class="box-card-promotion__img"><img class="list-image" src="https://cdn.ambbet.com/${data.imgUrl}" onerror="this.onerror=null;this.src='https://748073e22e8db794416a-cc51ef6b37841580002827d4d94d19b6.ssl.cf3.rackcdn.com/not-found.png';"></div>
                                                         <div class="box-card-promotion__caption">
                                                             ${data.gameName}
                                                         </div>
@@ -648,37 +648,29 @@ if (sessionStorage.getItem("token")) {
                                             $('.game-list').append(`<h3>เกมปิดปรับปรุงชั่วคราว ขออภัยในความไม่สะดวก</h3>`);
                                         }
                                     }
-                                    if (type == 'pg_slot' || type == 'gamatron') {
-                                        $('.box-card-promotion').on('click', function (e) {
-                                            if (!sessionStorage.getItem('token')) {
-                                                e.preventDefault();
-                                                window.location.href = location.hostname + '/login'
-                                            } else {
-                                                var card = $(this).data('game');
-                                                Loginpost(card);
+                                    
+                                    $('.box-card-promotion').on('click', function (e) {
+                                        if (!sessionStorage.getItem('token')) {
+                                            e.preventDefault();
+                                            window.location.href = location.hostname + '/login'
+                                        } else {
+                                            if (type == 'pg_slot'){
+                                                var gameId = $(this).data('code');
+                                                Loginpost(gameId);
+                                            } else if (type == 'gamatron') {
+                                                var gameId = $(this).data('id');
+                                                Loginpost(gameId);
+                                            } else if(type == 'slotxo'){
+                                                var gameCode = $(this).data('id');
+                                                LoginpostXO(gameCode);
+                                            } else{
+                                                var gameId = $(this).data('id');
+                                                var gameCode = $(this).data('code');
+                                                var productCode = $(this).data('vender');
+                                                Loginget(gameId, gameCode, productCode);
                                             }
-                                        })
-                                    }else if(type == 'slotxo'){
-                                        $('.box-card-promotion').on('click', function (e) {
-                                            if (!sessionStorage.getItem('token')) {
-                                                e.preventDefault();
-                                                window.location.href = location.hostname + '/login'
-                                            } else {
-                                                var card = $(this).data('game');
-                                                LoginpostXO(card);
-                                            }
-                                        })
-                                    }else{
-                                        $('.box-card-promotion').on('click', function (e) {
-                                            if (!sessionStorage.getItem('token')) {
-                                                e.preventDefault();
-                                                window.location.href = location.hostname + '/login'
-                                            } else {
-                                                var card = $(this).data('game');
-                                                Loginget(card);
-                                            }
-                                        })
-                                    }
+                                        }
+                                    })
                                 }
                             }
 
@@ -710,6 +702,7 @@ if (sessionStorage.getItem("token")) {
                                     };
 
                                     let resp = await axios.post(uri_post, data)
+                                    console.log(resp)
                                     if (resp.data.code == 0) {
                                         gameWindow.location.href = resp.data.result;
                                     } else {
@@ -753,8 +746,12 @@ if (sessionStorage.getItem("token")) {
 
 
                             }
-                            async function Loginget(gameId) {
-                                let uri_get = url_login + gameId;
+                            async function Loginget(gameId, gameCode, productCode) {
+                                if(type == 'evoplay01'){
+                                    var uri_get = url_login + gameId + `&productCode=${productCode}`;
+                                }else{
+                                    var uri_get = url_login + gameId + `&gameCode=${gameCode}&productCode=${productCode}`;
+                                }
                                 if (isLine()) {
                                     let resp = await axios.get(uri_get)
 
