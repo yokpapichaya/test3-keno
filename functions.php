@@ -104,6 +104,7 @@ class StarterSite extends Timber\Site {
 		$context['options_facebook_pixel'] = get_fields('options')['facebook_pixel'];
 		$context['options_h_announcement'] = get_fields('options')['h_announcement'];
 		$context['options_bg_website'] = get_fields('options')['bg_website'];
+		$context['options_tranfer_flag'] = get_fields('options')['tranfer_flag'];
 		return $context;
 	}
 	
@@ -288,6 +289,7 @@ function get_list_game() {
 	if(isset($id)){
 		$group_url = array(
 			'list_game' => get_field('slot_prefix',$id), 
+			'list_game' => get_field('poker_prefix',$id), 
 			'login_link' => get_field('login_api',$id),
 			'slugpost' => get_field('postslug',$id)
 		);
