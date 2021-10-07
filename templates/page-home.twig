@@ -17,6 +17,8 @@
                 <div class="col-6 col-md-3">
                     {% if content.post_type == 'slot_game' %}
                     <a href="{{ content.guid }}" class="box-allgame {{content.post_type}}" id="{{ content.ID }}" data-slug="{{ content.postslug }}" data-aos="fade-up" data-aos-duration="1000">
+                    {% elseif content.post_type == 'poker' %}
+                    <a href="{{ content.guid }}" class="box-allgame {{content.post_type}}" id="{{ content.ID }}" data-slug="{{ content.postslug }}" data-aos="fade-up" data-aos-duration="1000">
                     {% elseif content.post_type == 'casino_game' %}
                     <div class="box-allgame {{content.post_type}}" id="{{ content.ID }}" data-slug="{{ content.casino_parameter }}" data-aos="fade-up" data-aos-duration="1000">
                         <input type="hidden" value="{{ content.ID }},{{ content.casino_prefix }}" class="getlink"/>
@@ -24,21 +26,20 @@
                     <div class="box-allgame {{content.post_type}}" id="{{ content.ID }}" data-slug="{{ content.keno_parameter }}" data-aos="fade-up" data-aos-duration="1000">
                         <input type="hidden" value="{{ content.ID }},{{ content.keno_prefix }}" class="getlinkkeno"/>
                     {% endif %}
-                    {% if box.h_hot == true %} 
-                        {% if content.post_type == 'slot_game' %}
-                            <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot.gif');"></div>
+                        {% if box.h_hot == true %} 
+                            {% if content.post_type == 'slot_game' and content.post_type == 'poker' %}
+                                <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot.gif');"></div>
+                            {% endif %}
+                            {% if content.post_type == 'casino_game' and content.post_type == 'keno' %} 
+                                <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot-small.gif');"></div>
+                            {% endif %}
                         {% endif %}
-                        {% if content.post_type == 'casino_game' %} 
-                            <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot-small.gif');"></div>
-                        {% endif %}
-                        {% if content.post_type == 'keno' %} 
-                            <div class="box-allgame__hot" style="background-image: url('{{ theme.path }}/images/hot-small.gif');"></div>
-                        {% endif %}
-                    {% endif %}
-                    <div class="box-allgame__logo"><img src="{{ TimberImage(box.h_blockgame_logo).src }}" alt="h_box-logo{{loop.index}}"></div>
-                    <div class="box-allgame__bg"><img src="{{ TimberImage(box.h_blockgame_image).src }}" alt="h_box-image{{loop.index}}"></div>
-                    <div class="btn btn-game">เข้าเล่น</div>
-               {% if content.post_type == 'slot_game' %}
+                        <div class="box-allgame__logo"><img src="{{ TimberImage(box.h_blockgame_logo).src }}" alt="h_box-logo{{loop.index}}"></div>
+                        <div class="box-allgame__bg"><img src="{{ TimberImage(box.h_blockgame_image).src }}" alt="h_box-image{{loop.index}}"></div>
+                        <div class="btn btn-game">เข้าเล่น</div>
+                {% if content.post_type == 'slot_game'%}
+                    </a>
+                {% elseif content.post_type == 'poker'%}
                 </a>
                 {% else %}
                  </div>
@@ -67,7 +68,7 @@
     <div class="container">
     {% if options_h_casino|length >= 1 %}
         <div class="service-casino" data-aos="fade-up" data-aos-duration="1000">
-            <h2>บริการคาสิโนออนไลน์ของ Tokyo7club</h2>
+            <h2>บริการคาสิโนออนไลน์ของ {{ site.name }}</h2>
             <div class="service-container">
                 <div class="wrapper row">
                 {% for box in options_h_casino %}
@@ -91,7 +92,7 @@
     {% if options_h_slot|length >= 1 %}
         <hr>
         <div class="service-slot" data-aos="fade-up" data-aos-duration="1000">
-            <h2>บริการสล็อตออนไลน์ของ Tokyo7club</h2>
+            <h2>บริการสล็อตออนไลน์ของ {{ site.name }}</h2>
             <div class="service-container">
                 <div class="wrapper row">
                 {% for s_box in options_h_slot %}
@@ -115,7 +116,7 @@
     {% if options_h_keno|length >= 1 %}
         <hr>
         <div class="service-slot" data-aos="fade-up" data-aos-duration="1000">
-            <h2>บริการคีโนออนไลน์ของ Tokyo7club</h2>
+            <h2>บริการคีโนออนไลน์ของ {{ site.name }}</h2>
             <div class="service-container">
                 <div class="wrapper row">
                 {% for s_box in options_h_keno %}
@@ -127,6 +128,30 @@
                     <div class="box-logo__text">
                         <span>{{ s_box.h_keno_name }}</span>
                         {% if s_box.h_keno_recommend == true %}
+                        <div class="box-recommend">HOT</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if options_h_poker|length >= 1 %}
+        <hr>
+        <div class="service-slot" data-aos="fade-up" data-aos-duration="1000">
+            <h2>บริการโป๊กเกอร์ออนไลน์ของ {{ site.name }}</h2>
+            <div class="service-container">
+                <div class="wrapper row">
+                {% for s_box in options_h_poker %}
+                <div class="box-logo col-6 col-md-3">
+                    <div class="box-logo__logo">
+                        <img src="{{ TimberImage(s_box.h_poker_logo).src }}">
+                        <div class="box-content__shadow"></div>
+                    </div>
+                    <div class="box-logo__text">
+                        <span>{{ s_box.h_poker_name }}</span>
+                        {% if s_box.h_poker_recommend == true %}
                         <div class="box-recommend">HOT</div>
                         {% endif %}
                     </div>
